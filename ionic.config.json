@@ -1,0 +1,7 @@
+{
+  "name": "ghar",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

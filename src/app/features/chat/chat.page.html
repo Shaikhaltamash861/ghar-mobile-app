@@ -1,0 +1,84 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inbox"></ion-back-button>
+    </ion-buttons>
+
+    <div class="contact-info" (click)="openContactInfo()">
+      <ion-avatar class="contact-avatar">
+        <img [src]="contact.avatar" [alt]="contact.name">
+      </ion-avatar>
+      <div class="contact-details">
+        <h3>{{ contact.name }}</h3>
+        <p *ngIf="isTyping" class="typing-indicator">typing...</p>
+        <p *ngIf="!isTyping && contact.isOnline" class="online-status">online</p>
+        <p *ngIf="!isTyping && !contact.isOnline" class="last-seen">{{ contact.lastSeen }}</p>
+      </div>
+    </div>
+
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="videocam" color="light"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="call" color="light"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="ellipsis-vertical" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="messages-container" #messagesContainer>
+    <div *ngFor="let message of messages" class="message-wrapper"
+    [ngClass]="{'sent': message.senderId._id === userId, 'received': message.senderId._id !== userId}">
+
+      <div class="message-bubble">
+        <p class="message-text">{{ message.text }}</p>
+        <div class="message-info">
+          <span class="timestamp">{{ formatTime(message.createdAt) }}</span>
+          <!-- <ion-icon *ngIf="message.isSent" [name]="getStatusIcon(message.status)"
+            [ngClass]="{'read-status': message.status === 'read'}" class="status-icon">
+          </ion-icon> -->
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isTyping" class="message-wrapper received">
+      <div class="message-bubble typing-bubble">
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div class="message-input-container">
+      <!-- <ion-button fill="clear" size="small" class="attachment-btn">
+        <ion-icon name="add" color="medium"></ion-icon>
+      </ion-button> -->
+
+      <div class="input-wrapper">
+        <ion-textarea [(ngModel)]="newMessage" placeholder="Type a message..." rows="1" autoGrow="true"
+          class="message-input" (keydown.enter)="sendMessage();$event.preventDefault()">
+        </ion-textarea>
+
+        <!-- <ion-button *ngIf="!newMessage.trim()" fill="clear" size="small" class="emoji-btn">
+          <ion-icon name="happy-outline" color="medium"></ion-icon>
+        </ion-button> -->
+      </div>
+
+      <ion-button (click)="sendMessage()" fill="solid" shape="round" size="small" class="send-btn"
+        [disabled]="!newMessage.trim()">
+        <ion-icon name="send" class="send" color="white"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,70 @@
+import { Component, inject, Optional } from '@angular/core';
+import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { SplashScreen } from '@capacitor/splash-screen';
+import { Platform } from '@ionic/angular/standalone';
+import { App } from '@capacitor/app';
+import { StatusBar, Style } from '@capacitor/status-bar';
+import { CacheService } from 'ionic-cache';
+import { Storage } from '@ionic/storage-angular';
+import { StorageService } from './shared/services/storage';
+import { Fcm } from './shared/services/fcm';
+@Component({
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  imports: [IonApp, IonRouterOutlet],
+})
+export class AppComponent {
+  private storage = inject(Storage);
+  private cache = inject(CacheService);
+  private fcm = inject(Fcm);
+  private storageService = inject(StorageService);
+  constructor(private platform: Platform, @Optional() private routerOutlet?: IonRouterOutlet) {
+    this.showSplash();
+    this.initializeApp();
+    this.platform.ready().then(() => {
+      // Platform is ready and plugins are available.
+      // Here you can do any higher level native things you might need.
+      console.log('Platform ready');
+    });
+
+    this.platform.backButton.subscribeWithPriority(-1, () => {
+      App.addListener('backButton', ({ canGoBack }) => {
+        console.log('Back button pressed', canGoBack);
+        if (canGoBack) {
+          App.minimizeApp();
+        }
+      });
+    });
+  }
+
+ async initializeApp() {
+    await this.platform.ready();
+    await this.storage.create(); 
+    this.fcm.init();              // ✅ make sure storage is ready
+    this.cache.setDefaultTTL(60 * 60);         // 1 hour
+    this.cache.setOfflineInvalidate(false);    // keep cache when offline
+    this.cache.enableCache(true);              // ✅ enable cache
+
+    try {
+      // Set background color to black
+      await StatusBar.setBackgroundColor({ color: '#FFFFFF' });
+
+      // Set status bar icons to light (white icons on black background)
+      await StatusBar.setStyle({ style: Style.Light });
+      await StatusBar.setOverlaysWebView({ overlay: false });
+    } catch (err) {
+      console.warn('StatusBar plugin not available:', err);
+    }
+  }
+
+
+  async showSplash() {
+    SplashScreen.show({
+      showDuration: 2000,
+    }).then(async () => {
+      await SplashScreen.hide();
+    });
+
+
+  }
+}

@@ -1,0 +1,265 @@
+<ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-back-button defaultHref="/"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Profile</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="editProfile()">
+            <ion-icon name="pencil-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content [fullscreen]="true">
+      <!-- Header Section -->
+      <div class="profile-header">
+        <div class="avatar-container">
+          <ion-avatar class="profile-avatar">
+            <img [src]="userProfile.avatar" [alt]="userProfile.name">
+          </ion-avatar>
+          <ion-badge *ngIf="userProfile.isVerified" color="primary" class="verified-badge">
+            <ion-icon name="shield-checkmark-outline"></ion-icon>
+          </ion-badge>
+          <ion-fab-button 
+            size="small" 
+            color="light" 
+            class="camera-fab"
+            (click)="changeAvatar()">
+            <ion-icon name="camera-outline"></ion-icon>
+          </ion-fab-button>
+        </div>
+        
+        <div class="profile-info">
+          <h2>{{ userProfile.name }}</h2>
+          <p class="email">{{ userProfile.email }}</p>
+          <p class="bio">{{ userProfile.bio }}</p>
+          
+          <!-- Stats -->
+          <ion-grid class="stats-grid">
+            <ion-row>
+              <ion-col size="4" class="stat-col">
+                <div class="stat-number">{{ userProfile.stats.posts }}</div>
+                <div class="stat-label">Posts</div>
+              </ion-col>
+              <ion-col size="4" class="stat-col">
+                <div class="stat-number">{{ userProfile.stats.followers }}</div>
+                <div class="stat-label">Followers</div>
+              </ion-col>
+              <ion-col size="4" class="stat-col">
+                <div class="stat-number">{{ userProfile.stats.following }}</div>
+                <div class="stat-label">Following</div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </div>
+
+      <!-- Segment -->
+      <ion-segment [(ngModel)]="selectedSegment" class="profile-segment">
+        <ion-segment-button value="details">
+          <ion-label>Details</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="settings">
+          <ion-label>Settings</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <!-- Details Section -->
+      <div *ngIf="selectedSegment === 'details'" class="section">
+        <ion-card>
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item>
+                <ion-icon name="call-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Phone</h3>
+                  <p>{{ userProfile.phone }}</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="mail-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Email</h3>
+                  <p>{{ userProfile.email }}</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Location</h3>
+                  <p>{{ userProfile.location }}</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="calendar-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Member Since</h3>
+                  <p>{{ userProfile.joinDate }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Quick Actions -->
+        <ion-card>
+          <ion-card-content>
+            <h3 class="section-title">Quick Actions</h3>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6">
+                  <ion-button expand="block" fill="outline" (click)="editProfile()">
+                    <ion-icon name="pencil-outline" slot="start"></ion-icon>
+                    Edit Profile
+                  </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                  <ion-button expand="block" fill="outline" (click)="shareProfile()">
+                    <ion-icon name="share-outline" slot="start"></ion-icon>
+                    Share
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <!-- Settings Section -->
+      <div *ngIf="selectedSegment === 'settings'" class="section">
+        <ion-card>
+          <ion-card-content>
+            <h3 class="section-title">Preferences</h3>
+            <ion-list lines="none">
+              <ion-item>
+                <ion-icon name="moon-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Dark Mode</h3>
+                  <p>Enable dark theme</p>
+                </ion-label>
+                <ion-toggle 
+                  [(ngModel)]="settings.darkMode"
+                  (ionChange)="toggleDarkMode()"
+                  slot="end">
+                </ion-toggle>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="notifications-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Notifications</h3>
+                  <p>Push notifications</p>
+                </ion-label>
+                <ion-toggle 
+                  [(ngModel)]="settings.notifications"
+                  (ionChange)="toggleNotifications()"
+                  slot="end">
+                </ion-toggle>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="location-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Location Services</h3>
+                  <p>Share location data</p>
+                </ion-label>
+                <ion-toggle 
+                  [(ngModel)]="settings.locationServices"
+                  (ionChange)="toggleLocation()"
+                  slot="end">
+                </ion-toggle>
+              </ion-item>
+
+              <ion-item>
+                <ion-icon name="shield-checkmark-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Two-Factor Authentication</h3>
+                  <p>Extra security layer</p>
+                </ion-label>
+                <ion-toggle 
+                  [(ngModel)]="settings.twoFactor"
+                  (ionChange)="toggleTwoFactor()"
+                  slot="end">
+                </ion-toggle>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Account Settings -->
+        <ion-card>
+          <ion-card-content>
+            <h3 class="section-title">Account</h3>
+            <ion-list lines="none">
+              <ion-item button (click)="changePassword()">
+                <ion-icon name="lock-closed-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Change Password</h3>
+                  <p>Update your password</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item button (click)="paymentMethods()">
+                <ion-icon name="card-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Payment Methods</h3>
+                  <p>Manage payment options</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item button (click)="language()">
+                <ion-icon name="language-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Language</h3>
+                  <p>English</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item button (click)="help()">
+                <ion-icon name="help-circle-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Help & Support</h3>
+                  <p>Get help and contact us</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Danger Zone -->
+        <ion-card>
+          <ion-card-content>
+            <ion-button 
+              expand="block" 
+              color="danger" 
+              fill="outline"
+              (click)="logout()">
+              <ion-icon name="log-out-outline" slot="start"></ion-icon>
+              Sign Out
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-content>
+
+    <!-- Action Sheet for Avatar Change -->
+    <ion-action-sheet
+      [isOpen]="showAvatarSheet"
+      header="Change Profile Picture"
+      [buttons]="avatarButtons"
+      (didDismiss)="showAvatarSheet = false">
+    </ion-action-sheet>
+
+    <!-- Alert for Logout Confirmation -->
+    <ion-alert
+      [isOpen]="showLogoutAlert"
+      header="Sign Out"
+      message="Are you sure you want to sign out?"
+      [buttons]="logoutButtons"
+      (didDismiss)="showLogoutAlert = false">
+    </ion-alert>

@@ -1,0 +1,105 @@
+<!-- property-filter.component.html -->
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Filters</ion-title>
+    <ion-note slot="end" color="medium">({{ getActiveFiltersCount() }} active)</ion-note>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <!-- Property Type Section -->
+  <div class="filter-section">
+    <h3 class="section-title">Property Type</h3>
+    <div class="chips-container">
+      <ion-chip *ngFor="let type of propertyTypes" [class.selected]="type.selected" (click)="toggleChip(type)"
+        class="custom-chip">
+        <ion-label>{{ type.label }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+
+  <!-- BHK Type Section -->
+  <div class="filter-section">
+    <h3 class="section-title">BHK Type</h3>
+    <div class="chips-container">
+      <ion-chip *ngFor="let bhk of bhkTypes" [class.selected]="bhk.selected" (click)="toggleChip(bhk)"
+        class="custom-chip">
+        <ion-label>{{ bhk.label }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+
+  <!-- Price Range Section -->
+  <div class="filter-section">
+    <h3 class="section-title">Price Range</h3>
+    <div class="price-range-container">
+      <ion-item lines="none" class="price-item">
+        <ion-input [(ngModel)]="priceRange.min" placeholder="Min Price" class="price-input">
+        </ion-input>
+      </ion-item>
+      <span class="price-separator">to</span>
+      <ion-item lines="none" class="price-item">
+        <ion-input [(ngModel)]="priceRange.max" placeholder="Max Price" class="price-input">
+        </ion-input>
+      </ion-item>
+    </div>
+  </div>
+
+  <!-- Furnishing Section -->
+  <div class="filter-section">
+    <h3 class="section-title">Furnishing</h3>
+    <div class="chips-container">
+      <ion-chip *ngFor="let furnishing of furnishingTypes" [class.selected]="furnishing.selected"
+        (click)="toggleChip(furnishing)" class="custom-chip">
+        <ion-label>{{ furnishing.label }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+
+  <!-- Location Section -->
+  <div class="filter-section">
+    <h3 class="section-title">Location</h3>
+    <ion-item lines="none" class="location-item">
+      <ion-input [(ngModel)]="location" placeholder="Enter location or area">
+      </ion-input>
+      <ion-icon name="location-outline" slot="end" color="medium"></ion-icon>
+    </ion-item>
+  </div>
+
+  <!-- Amenities Section -->
+  <div class="filter-section">
+    <h3 class="section-title">Amenities</h3>
+    <div class="chips-container">
+      <ion-chip *ngFor="let amenity of amenities" [class.selected]="amenity.selected" (click)="toggleChip(amenity)"
+        class="custom-chip">
+        <ion-label>{{ amenity.label }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+
+  <!-- Sort By Section -->
+  <div class="filter-section">
+    <h3 class="section-title">Sort By</h3>
+    <ion-item lines="none" class="sort-item">
+      <ion-select [(ngModel)]="selectedSort" interface="popover" placeholder="Select sorting option">
+        <ion-select-option *ngFor="let option of sortOptions" [value]="option">
+          {{ option }}
+        </ion-select-option>
+      </ion-select>
+      <ion-icon name="chevron-down-outline" slot="end" color="medium"></ion-icon>
+    </ion-item>
+  </div>
+</ion-content>
+
+<!-- Action Buttons - Fixed at bottom -->
+<div class="bottom-sheet-footer">
+  <div class="action-buttons">
+    <ion-button fill="outline" color="medium" expand="block" class="clear-btn" (click)="clearAllFilters()">
+      Clear All
+    </ion-button>
+    <ion-button fill="solid" color="dark" expand="block" class="apply-btn" (click)="applyFilters()">
+      Apply Filters
+    </ion-button>
+  </div>
+</div>

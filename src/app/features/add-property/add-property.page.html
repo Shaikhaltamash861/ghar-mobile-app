@@ -1,0 +1,251 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Add Property</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="propertyForm" (ngSubmit)="onSubmit()">
+
+    <!-- Basic Information -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Basic Information</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <!-- Title -->
+        <ion-item>
+          <ion-input labelPlacement="fixed" label="Property Title *" placeholder="Enter property title"
+            formControlName="title"
+            ></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="getFieldError('title')">
+          {{ getFieldError('title') }}
+        </div>
+
+        <!-- Description -->
+        <ion-item>
+          <ion-textarea labelPlacement="stacked" label="Description" placeholder="Describe your property" rows="4"
+            formControlName="description"></ion-textarea>
+        </ion-item>
+
+        <!-- Property Type -->
+        <ion-item>
+          <ion-select labelPlacement="fixed" label="Property Type *" interface="action-sheet" placeholder="Select property type"
+            formControlName="propertyType"
+            [class.ion-invalid]="propertyForm.get('propertyType')?.invalid && propertyForm.get('propertyType')?.touched">
+            <ion-select-option *ngFor="let type of propertyTypes" [value]="type">
+              {{ type }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <!-- @if(getFieldError('propertyType') != '') {
+          <div class="error-message">
+            {{ getFieldError('propertyType') }}
+          </div>
+
+        } -->
+
+        <!-- BHK Type -->
+        <ion-item>
+          <ion-select label-placement="fixed" interface="action-sheet" label="BHK Type" placeholder="Select BHK type" formControlName="bhkType">
+            <ion-select-option *ngFor="let bhk of bhkTypes" [value]="bhk">
+              {{ bhk }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Pricing Information -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Pricing</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <!-- Rent -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Monthly Rent (₹) *" type="number" placeholder="Enter monthly rent"
+            formControlName="rent"
+            [class.ion-invalid]="propertyForm.get('rent')?.invalid && propertyForm.get('rent')?.touched"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="getFieldError('rent')">
+          {{ getFieldError('rent') }}
+        </div>
+
+        <!-- Deposit -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Security Deposit (₹)" type="number"
+            placeholder="Enter security deposit" formControlName="deposit"
+            [class.ion-invalid]="propertyForm.get('deposit')?.invalid && propertyForm.get('deposit')?.touched"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="getFieldError('deposit')">
+          {{ getFieldError('deposit') }}
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Property Details -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Property Details</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <!-- Furnishing -->
+        <ion-item>
+          <ion-select labelPlacement="fixed" interface="action-sheet" label="Furnishing" placeholder="Select furnishing type"
+            formControlName="furnishing">
+            <ion-select-option *ngFor="let furnishing of furnishingTypes" [value]="furnishing">
+              {{ furnishing }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <!-- Available From -->
+        <ion-item>
+          <ion-datetime-button datetime="availableFromDateTime">
+            <ion-label slot="start">Available From</ion-label>
+          </ion-datetime-button>
+        </ion-item>
+        <ion-modal [keepContentsMounted]="true">
+          <ng-template>
+            <ion-datetime id="availableFromDateTime" presentation="date" formControlName="availableFrom"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+
+        <!-- Contact Preference -->
+        <ion-item>
+          <ion-select labelPlacement="fixed" interface="action-sheet" label="Contact Preference" placeholder="Select contact preference"
+            formControlName="contactPreference">
+            <ion-select-option *ngFor="let pref of contactPreferences" [value]="pref">
+              {{ pref }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Address Information -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Address</ion-card-title>
+      </ion-card-header>
+      <ion-card-content formGroupName="address">
+
+        <!-- Building Name -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Building Name" placeholder="Enter building name"
+            formControlName="buildingName"></ion-input>
+        </ion-item>
+
+        <!-- Street -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Street" placeholder="Enter street address"
+            formControlName="street"></ion-input>
+        </ion-item>
+
+        <!-- City -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="City *" placeholder="Enter city" formControlName="city"
+            [class.ion-invalid]="propertyForm.get('address.city')?.invalid && propertyForm.get('address.city')?.touched"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="getAddressFieldError('city')">
+          {{ getAddressFieldError('city') }}
+        </div>
+
+        <!-- State -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="State *" placeholder="Enter state" formControlName="state"
+            [class.ion-invalid]="propertyForm.get('address.state')?.invalid && propertyForm.get('address.state')?.touched"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="getAddressFieldError('state')">
+          {{ getAddressFieldError('state') }}
+        </div>
+
+        <!-- Pincode -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Pincode" placeholder="Enter pincode" formControlName="pincode"
+            [class.ion-invalid]="propertyForm.get('address.pincode')?.invalid && propertyForm.get('address.pincode')?.touched"></ion-input>
+        </ion-item>
+        <div class="error-message" *ngIf="getAddressFieldError('pincode')">
+          {{ getAddressFieldError('pincode') }}
+        </div>
+
+        <!-- Landmark -->
+        <ion-item>
+          <ion-input labelPlacement="stacked" label="Landmark" placeholder="Enter nearby landmark"
+            formControlName="landmark"></ion-input>
+        </ion-item>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Amenities -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Amenities</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="amenities-grid">
+          <ion-item *ngFor="let amenity of amenitiesList">
+            <ion-checkbox slot="start" [checked]="isAmenitySelected(amenity)"
+              (ionChange)="onAmenityChange(amenity, $event)"></ion-checkbox>
+            <ion-label>{{ amenity }}</ion-label>
+          </ion-item>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Images -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Property Images</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+
+        <!-- Add Image Button -->
+        <ion-button expand="block" fill="outline" (click)="presentImageActionSheet()">
+          <ion-icon name="camera" slot="start"></ion-icon>
+          Add Images
+        </ion-button>
+
+        <!-- Selected Images -->
+        <div class="images-grid" *ngIf="selectedImages.length > 0">
+          <div class="image-container" *ngFor="let image of selectedImages; let i = index">
+            <img [src]="image.preview" alt="Property image">
+            <ion-button fill="clear" size="small" class="remove-btn" (click)="removeImage(i)">
+              <ion-icon name="close-circle" color="danger"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Availability Toggle -->
+    <!-- <ion-card>
+      <ion-card-content>
+        <ion-item>
+          <ion-toggle formControlName="isAvailable" slot="start"></ion-toggle>
+          <ion-label>Property is available for rent</ion-label>
+        </ion-item>
+      </ion-card-content>
+    </ion-card> -->
+
+    <!-- Submit Button -->
+    <ion-button  expand="block" fill="solid" color="dark" type="submit" [disabled]="propertyForm.invalid || uploadImageLoadinig" class="submit-btn">
+      <ion-icon name="add" slot="start"></ion-icon>
+      Add Property
+    </ion-button>
+
+  </form>
+</ion-content>

@@ -1,0 +1,54 @@
+<ion-content class="ion-padding home-page" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="header-section">
+    <ion-searchbar placeholder="Search" show-clear-button="focus" (ionInput)="onSearch($event)"
+      class="custom-searchbar">
+    </ion-searchbar>
+
+    <ion-button fill="outline" shape="round" class="filter-button" (click)="presentFilterOptions()">
+      <ion-icon slot="icon-only" name="options-outline"></ion-icon>
+    </ion-button>
+  </div>
+
+  <!-- Category Chips -->
+  <div class="category-section">
+    <ion-chip *ngFor="let category of categories" [class.active-chip]="category.active"
+      (click)="onCategorySelect(category)">
+      {{ category.name }}
+    </ion-chip>
+  </div>
+
+  <!-- Property Cards -->
+  <div class="properties-section" *ngIf="properties?.length > 0 && !loading">
+    <ion-card *ngFor="let property of properties" class="property-card" (click)="viewProperty(property)">
+      <div class="property-image">
+        <img [src]="property?.images[0]?.url" [alt]="property.address">
+      </div>
+      <ion-card-content>
+        <h3 class="property-price">{{ property.rent }}</h3>
+        <p class="property-address">{{ property.address.city }}</p>
+        <p class="property-address">{{ property.address.state }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <div class="no-properties">
+    <p *ngIf="properties?.length === 0 && !loading" class="no-properties-message">
+      No properties found.
+    </p>
+    <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+  </div>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+  <!-- @if(userService.isOwner())
+  {
+  } -->
+  <ion-fab class="fab" slot="fixed" horizontal="end" vertical="bottom">
+    <ion-fab-button (click)="onAddProperty()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

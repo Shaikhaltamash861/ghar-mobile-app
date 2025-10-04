@@ -1,0 +1,252 @@
+ion-toolbar {
+  --background: #075e54;
+  --color: white;
+  
+  &[color="primary"] {
+    --background: #128c7e;
+  }
+}
+.contact-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .contact-avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+  }
+
+  .contact-details {
+    flex: 1;
+
+    h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: white;
+      line-height: 1.2;
+    }
+
+    p {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.2;
+      
+      &.typing-indicator {
+        color: #4CAF50;
+        font-style: italic;
+      }
+      
+      &.online-status {
+        color: #4CAF50;
+      }
+      
+      &.last-seen {
+        color: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+}
+
+ion-content {
+  --background: #e5ddd5;
+  
+  .messages-container {
+    padding: 16px 12px;
+    min-height: 100%;
+    
+    .message-wrapper {
+      display: flex;
+      margin-bottom: 8px;
+      
+      &.sent {
+        justify-content: flex-end;
+        
+        .message-bubble {
+          background: #dcf8c6;
+          border-radius: 18px 18px 4px 18px;
+        }
+      }
+      
+      &.received {
+        justify-content: flex-start;
+        
+        .message-bubble {
+          background: white;
+          border-radius: 18px 18px 18px 4px;
+        }
+      }
+      
+      .message-bubble {
+        max-width: 75%;
+        min-width: 60px;
+        padding: 8px 12px;
+        position: relative;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        
+        .message-text {
+          margin: 0 0 4px 0;
+          font-size: 16px;
+          line-height: 1.4;
+          word-wrap: break-word;
+          color: #303030;
+        }
+        
+        .message-info {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          margin-top: 4px;
+          
+          .timestamp {
+            font-size: 12px;
+            color: #999;
+            margin-right: 4px;
+          }
+          
+          .status-icon {
+            font-size: 14px;
+            color: #999;
+            
+            &.read-status {
+              color: #4fc3f7;
+            }
+          }
+        }
+        
+        &.typing-bubble {
+          background: white;
+          padding: 12px 16px;
+          
+          .typing-dots {
+            display: flex;
+            gap: 4px;
+            
+            span {
+              width: 8px;
+              height: 8px;
+              border-radius: 50%;
+              background: #999;
+              animation: typing 1.5s infinite ease-in-out;
+              
+              &:nth-child(2) {
+                animation-delay: 0.2s;
+              }
+              
+              &:nth-child(3) {
+                animation-delay: 0.4s;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+ion-footer {
+  ion-toolbar {
+    --padding-start: 8px;
+    --padding-end: 8px;
+    
+    .message-input-container {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 8px 0;
+      
+      .input-wrapper {
+        flex: 1;
+        background: white;
+        border-radius: 20px;
+        display: flex;
+        align-items: flex-end;
+        padding: 4px 12px 4px 16px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        
+        .message-input {
+          flex: 1;
+          --padding-start: 0;
+          --padding-end: 0;
+          --padding-top: 8px;
+          --padding-bottom: 8px;
+          --color: black;
+          --border-color: transparent;
+          font-size: 16px;
+          max-height: 120px;
+        }
+        
+        .emoji-btn {
+          --color: var(--ion-color-medium);
+          margin: 0;
+          height: 32px;
+          width: 32px;
+        }
+      }
+      
+      .send-btn {
+        height: 40px;
+        width: 40px;
+        margin: 0;
+        --border-radius: 20px;
+      }
+    }
+  }
+}
+
+.textarea {
+    color: black !important;
+}
+
+@keyframes typing {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  ion-content {
+    --background: #0d1117;
+    
+    .messages-container {
+      .message-wrapper {
+        &.received {
+          .message-bubble {
+            background: #262626;
+            
+            .message-text {
+              color: #ffffff;
+            }
+          }
+        }
+      }
+    }
+  }
+  
+  ion-footer {
+    .message-input-container {
+      .input-wrapper {
+        background: #262626;
+        
+        .message-input {
+          color: #ffffff;
+        }
+      }
+    }
+  }
+}

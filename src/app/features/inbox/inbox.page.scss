@@ -1,0 +1,345 @@
+/* contact-requests.page.scss */
+.contact-requests-content {
+  --background: #f5f5f5;
+}
+
+// Header customization
+ion-toolbar {
+  --background: #075e54;
+  --color: white;
+  
+  &[color="primary"] {
+    --background: #128c7e;
+  }
+}
+
+// Search container
+.search-container {
+  padding: 8px 16px;
+  background: white;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+ion-searchbar {
+  --background: #f0f0f0;
+  --border-radius: 20px;
+  --box-shadow: none;
+  --color: #333;
+  padding: 0;
+}
+
+// Unread banner
+.unread-banner {
+  background: #dcf8c6;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #075e54;
+  font-size: 14px;
+  font-weight: 500;
+  border-bottom: 1px solid #c8e6c9;
+  
+  ion-icon {
+    font-size: 16px;
+  }
+}
+
+// Requests list
+.requests-list {
+  background: white;
+  margin: 0;
+}
+
+.request-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --inner-padding-end: 0;
+  --min-height: 80px;
+  border-bottom: 1px solid #f0f0f0;
+  position: relative;
+  transition: background-color 0.2s ease;
+  
+  &.unread {
+    background: #f9f9f9;
+    
+    .sender-name {
+      font-weight: 600;
+    }
+    
+    .message-preview {
+      font-weight: 500;
+      color: #333;
+    }
+  }
+  
+  &.selected {
+    background: #e3f2fd;
+  }
+  
+  &:hover {
+    background: #f5f5f5;
+  }
+}
+
+// Avatar styling
+.sender-avatar {
+  width: 48px;
+  height: 48px;
+  margin-right: 12px;
+  
+  ion-icon {
+    width: 100%;
+    height: 100%;
+    font-size: 48px;
+    color: #999;
+  }
+}
+
+// Request content
+.request-content {
+  margin: 0;
+}
+
+.request-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.sender-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.request-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.timestamp {
+  font-size: 12px;
+  color: #999;
+  white-space: nowrap;
+}
+
+.status-icon {
+  font-size: 14px;
+  color: #999;
+  
+  &.read {
+    color: #128c7e;
+  }
+  
+  &.replied {
+    color: #25d366;
+  }
+}
+
+.property-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #666;
+  
+  ion-icon {
+    font-size: 14px;
+    color: #128c7e;
+  }
+}
+
+.message-preview {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Action buttons
+.call-btn {
+  --color: #128c7e;
+  --padding: 8px;
+  margin: 0;
+}
+
+.unread-badge {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  font-size: 0;
+  border-radius: 50%;
+}
+
+// Empty state
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  color: #999;
+  
+  ion-icon {
+    font-size: 80px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #666;
+    margin: 0 0 8px 0;
+  }
+  
+  p {
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+    max-width: 280px;
+  }
+}
+
+// Refresher
+ion-refresher {
+  ion-refresher-content {
+    --color: #128c7e;
+  }
+}
+
+// Infinite scroll
+ion-infinite-scroll-content {
+  --color: #999;
+}
+
+// Selection mode styles
+ion-checkbox {
+  --color-checked: #128c7e;
+  --border-color-checked: #128c7e;
+  --checkmark-color: white;
+  margin-right: 12px;
+}
+
+// Action sheet customization
+ion-action-sheet {
+  --button-color: #333;
+  --button-color-destructive: #f44336;
+}
+
+// WhatsApp-like animations
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.request-item {
+  animation: slideInRight 0.3s ease-out;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .request-header {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  
+  .sender-name {
+    font-size: 15px;
+  }
+  
+  .message-preview {
+    font-size: 13px;
+    -webkit-line-clamp: 1;
+  }
+  
+  .property-info {
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  
+  .sender-avatar {
+    width: 44px;
+    height: 44px;
+    
+    ion-icon {
+      font-size: 44px;
+    }
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .contact-requests-content {
+    --background: #121212;
+  }
+  
+  .requests-list {
+    background: #1e1e1e;
+  }
+  
+  .request-item {
+    border-bottom-color: #333;
+    
+    &.unread {
+      background: #252525;
+    }
+    
+    &:hover {
+      background: #2a2a2a;
+    }
+  }
+  
+  .sender-name {
+    color: #ffffff;
+  }
+  
+  .message-preview {
+    color: #cccccc;
+  }
+  
+  .property-info {
+    color: #aaaaaa;
+  }
+  
+  .search-container {
+    background: #1e1e1e;
+    border-bottom-color: #333;
+  }
+  
+  ion-searchbar {
+    --background: #333;
+    --color: #ffffff;
+  }
+  
+  .unread-banner {
+    background: #2d5a2d;
+    color: #a5d6a7;
+    border-bottom-color: #4caf50;
+  }
+}

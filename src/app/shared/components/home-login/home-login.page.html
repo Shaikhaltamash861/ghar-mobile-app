@@ -1,0 +1,64 @@
+<ion-content class="login-content">
+  <!-- Background Image Container -->
+  <div class="hero-section">
+    <div class="background-overlay"></div>
+    <div class="grid-overlay">
+      <div class="grid-item" *ngFor="let item of [1,2,3,4,5,6]"></div>
+    </div>
+
+    <!-- Main Heading -->
+    <div class="hero-content">
+      <h1 class="main-heading">
+        Discover Your<br>
+        Dream Home
+      </h1>
+    </div>
+  </div>
+
+  <!-- Bottom Card with Login Options -->
+  <div class="login-card">
+    <div class="button-container">
+      <!-- Primary Buttons -->
+      <ion-button 
+        expand="block" 
+        fill="solid" 
+        color="dark" 
+        class="primary-btn login-btn"
+        (click)="login()">
+        Login
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        class="social-btn"
+        (click)="signUp()">
+        Sign Up
+      </ion-button>
+
+      <!-- Divider -->
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <!-- Social Login Buttons -->
+      <ion-button 
+        expand="block" 
+        fill="outline" 
+        class="social-btn"
+        (click)="continueWithGoogle()">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Continue with Google
+      </ion-button>
+
+      <ion-button 
+        expand="block" 
+        fill="outline"  
+        class="social-btn"
+        (click)="continueWithFacebook()">
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        Continue with Facebook
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

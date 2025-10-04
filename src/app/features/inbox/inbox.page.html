@@ -1,0 +1,114 @@
+<ion-header [translucent]="true">
+  <ion-toolbar [color]="isSelectionMode ? 'primary' : undefined">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>
+      {{ isSelectionMode ? selectedRequests.size + ' selected' : 'Contact Requests' }}
+    </ion-title>
+
+    <ion-button *ngIf="isSelectionMode" slot="end" fill="clear" (click)="selectAll()">
+      <ion-icon name="checkbox-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+
+    <ion-button *ngIf="isSelectionMode" slot="end" fill="clear" (click)="openActionSheet()">
+      <ion-icon name="ellipsis-vertical-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="contact-requests-content">
+  <!-- Search Bar -->
+  <div class="search-container" *ngIf="!isSelectionMode">
+    <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="onSearchChange($event)" placeholder="Search requests..."
+      show-clear-button="focus">
+    </ion-searchbar>
+  </div>
+
+  <!-- Unread Count Badge -->
+  <!-- <div class="unread-banner" *ngIf="getUnreadCount() > 0 && !isSelectionMode">
+    <ion-icon name="chatbubble-outline"></ion-icon>
+    <span>{{ getUnreadCount() }} unread message{{ getUnreadCount() > 1 ? 's' : '' }}</span>
+  </div> -->
+
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pulling-icon="refresh-outline" refreshing-spinner="circular">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Contact Requests List -->
+  <ion-list class="requests-list">
+    <!-- [class.unread]="request.status === 'unread'"
+    [class.selected]="selectedRequests.has(request.id)" -->
+    <ion-item *ngFor="let consversation of consversations; trackBy: trackByFn" class="request-item"
+      (click)="onRequestClick(consversation)" (press)="onRequestLongPress(consversation)" button>
+
+      <!-- Selection Checkbox -->
+      <ion-checkbox *ngIf="isSelectionMode" slot="start" [checked]="selectedRequests.has(consversation._id)"
+        (ionChange)="toggleSelection(consversation._id)">
+      </ion-checkbox>
+
+      <!-- Sender Avatar -->
+      <ion-avatar slot="start" class="sender-avatar">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-avatar>
+
+      <!-- Request Content -->
+      <ion-label class="request-content">
+        <div class="request-header">
+          <h2 class="sender-name">{{ consversation.contactRequestId.propertyId.title }}</h2>
+          <div class="request-meta">
+            <!-- <span class="timestamp">{{ getTimeAgo(consversation.createdAt) }}</span> -->
+            <!-- <ion-icon 
+              *ngIf="getStatusIcon(request.status)" 
+              [name]="getStatusIcon(request.status)"
+              class="status-icon"
+              [class.read]="request.status === 'read'"
+              [class.replied]="request.status === 'replied'">
+            </ion-icon> -->
+          </div>
+        </div>
+
+        <div class="property-info">
+          <ion-icon name="home-outline"></ion-icon>
+          <span>{{ consversation.contactRequestId.propertyId.title }}</span>
+        </div>
+
+        <p class="message-preview">{{ consversation.lastMessage }}</p>
+      </ion-label>
+
+      <!-- Call Button -->
+      <ion-button *ngIf="!isSelectionMode" slot="end" fill="clear" class="call-btn"
+        (click)="callSender(consversation, $event)">
+        <ion-icon name="call-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+
+      <!-- Unread Indicator -->
+      <!-- <ion-badge 
+        *ngIf="request.status === 'unread' && !isSelectionMode"
+        color="primary" 
+        class="unread-badge">
+      </ion-badge> -->
+    </ion-item>
+  </ion-list>
+
+  <!-- Empty State -->
+  <div *ngIf="filteredRequests.length === 0" class="empty-state">
+    <ion-icon name="chatbubble-outline"></ion-icon>
+    <h3>No contact requests</h3>
+    <p>When people contact you about your properties, their messages will appear here.</p>
+  </div>
+
+  <!-- Infinite Scroll -->
+  <ion-infinite-scroll (ionInfinite)="loadMore($event)">
+    <ion-infinite-scroll-content loading-spinner="bubbles" loading-text="Loading more requests...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+  <!-- Action Sheet for Bulk Operations -->
+  <ion-action-sheet [isOpen]="isActionSheetOpen" (didDismiss)="closeActionSheet()" header="Actions"
+    [buttons]="actionSheetButtons">
+  </ion-action-sheet>
+</ion-content>
