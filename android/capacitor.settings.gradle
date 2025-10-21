@@ -31,3 +31,6 @@ project(':capacitor-splash-screen').projectDir = new File('../node_modules/@capa
 
 include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
+
+include ':outloud-ionic-safe-area'
+project(':outloud-ionic-safe-area').projectDir = new File('../node_modules/@outloud/ionic-safe-area/android')

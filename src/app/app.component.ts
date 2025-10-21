@@ -8,6 +8,9 @@ import { CacheService } from 'ionic-cache';
 import { Storage } from '@ionic/storage-angular';
 import { StorageService } from './shared/services/storage';
 import { Fcm } from './shared/services/fcm';
+import { Chat } from './shared/services/chat';
+
+import { SafeArea } from '@outloud/ionic-safe-area';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -18,6 +21,7 @@ export class AppComponent {
   private cache = inject(CacheService);
   private fcm = inject(Fcm);
   private storageService = inject(StorageService);
+  private chatService = inject(Chat);
   constructor(private platform: Platform, @Optional() private routerOutlet?: IonRouterOutlet) {
     this.showSplash();
     this.initializeApp();
@@ -26,20 +30,34 @@ export class AppComponent {
       // Here you can do any higher level native things you might need.
       console.log('Platform ready');
     });
+    SafeArea.enable({config: {
+      customColorsForSystemBars: true,
+      statusBarColor: '#000000',
+      statusBarContent: 'light',
+      navigationBarColor: '#000000',
+      navigationBarContent: 'light',
+      offset: 0,
+    }}).then((data) => {
+      console.log('SafeArea enabled', data);
+    }).catch((error) => {
+      console.error('Error enabling SafeArea:', error);
+    });
 
     this.platform.backButton.subscribeWithPriority(-1, () => {
       App.addListener('backButton', ({ canGoBack }) => {
         console.log('Back button pressed', canGoBack);
         if (canGoBack) {
+          this.routerOutlet?.pop();
+        } else {
           App.minimizeApp();
         }
       });
     });
   }
 
- async initializeApp() {
+  async initializeApp() {
     await this.platform.ready();
-    await this.storage.create(); 
+    await this.storage.create();
     this.fcm.init();              // ✅ make sure storage is ready
     this.cache.setDefaultTTL(60 * 60);         // 1 hour
     this.cache.setOfflineInvalidate(false);    // keep cache when offline

@@ -6,6 +6,15 @@ const config: CapacitorConfig = {
   webDir: 'www',
 
   plugins: {
+    SafeArea: {
+      enabled: true,
+      customColorsForSystemBars: true,
+      statusBarColor: '#000000',
+      statusBarContent: 'light',
+      navigationBarColor: '#000000',
+      navigationBarContent: 'light',
+      offset: 0,
+    },
     StatusBar: {
       backgroundColor: "#FFFFFF",
       style: "LIGHT"
