@@ -32,7 +32,7 @@ export class AppComponent {
     });
     SafeArea.enable({config: {
       customColorsForSystemBars: true,
-      statusBarColor: '#000000',
+      statusBarColor: '#075e54',
       statusBarContent: 'light',
       navigationBarColor: '#000000',
       navigationBarContent: 'light',
@@ -42,6 +42,8 @@ export class AppComponent {
     }).catch((error) => {
       console.error('Error enabling SafeArea:', error);
     });
+
+    this.initializeChatService();
 
     this.platform.backButton.subscribeWithPriority(-1, () => {
       App.addListener('backButton', ({ canGoBack }) => {
@@ -84,5 +86,9 @@ export class AppComponent {
     });
 
 
+  }
+
+  initializeChatService() {
+    this.chatService.init();
   }
 }

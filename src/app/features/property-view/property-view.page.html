@@ -1,50 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Property</ion-title>
+  </ion-toolbar>
+</ion-header>
 <ion-content class="property-details-content" [fullscreen]="true">
   <!-- Header with Image Carousel -->
   <div class="property-header">
     <!-- Image Carousel -->
     <div class="image-carousel">
       <div class="carousel-container">
-        <img 
-          [src]="property.images[currentImageIndex]?.url" 
-          [alt]="property.title"
-          class="property-image">
-        
+        <img [src]="property.images[currentImageIndex]?.url" [alt]="property.title" class="property-image">
+
         <!-- Navigation Arrows -->
-        <ion-button 
-          fill="clear" 
-          class="nav-arrow left-arrow"
-          (click)="previousImage()"
+        <ion-button fill="clear" class="nav-arrow left-arrow" (click)="previousImage()"
           *ngIf="property.images.length > 1">
           <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
         </ion-button>
-        
-        <ion-button 
-          fill="clear" 
-          class="nav-arrow right-arrow"
-          (click)="nextImage()"
-          *ngIf="property.images.length > 1">
+
+        <ion-button fill="clear" class="nav-arrow right-arrow" (click)="nextImage()" *ngIf="property.images.length > 1">
           <ion-icon name="chevron-forward" slot="icon-only"></ion-icon>
         </ion-button>
 
         <!-- Image Indicators -->
         <div class="image-indicators" *ngIf="property.images.length > 1">
-          <span 
-            *ngFor="let image of property.images; let i = index"
-            class="indicator"
-            [class.active]="i === currentImageIndex"
-            (click)="currentImageIndex = i">
+          <span *ngFor="let image of property.images; let i = index" class="indicator"
+            [class.active]="i === currentImageIndex" (click)="currentImageIndex = i">
           </span>
         </div>
       </div>
 
       <!-- Floating Header Actions -->
       <div class="header-actions">
-        <ion-button fill="clear" class="action-btn" (click)="goBack()">
-          <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
-        </ion-button>
-        
+
         <div class="right-actions">
-          <ion-button fill="clear" shape="round" class="action-btn" (click)="shareProperty()">
+          <ion-button slot="end" fill="clear" shape="round" class="action-btn" (click)="shareProperty()">
             <ion-icon slot="icon-only" name="share-outline"></ion-icon>
           </ion-button>
         </div>
@@ -65,19 +57,6 @@
       </div>
     </div>
 
-    <!-- Property Type Tags -->
-    <div class="property-tags">
-      <ion-chip color="primary" outline="true">
-        <ion-label>{{ property.bhkType }}</ion-label>
-      </ion-chip>
-      <ion-chip color="secondary" outline="true">
-        <ion-label>{{ property.propertyType }}</ion-label>
-      </ion-chip>
-      <ion-chip color="tertiary" outline="true">
-        <ion-label>{{ property.furnishing }}</ion-label>
-      </ion-chip>
-    </div>
-
     <!-- Description -->
     <div class="description-section">
       <h3>Description</h3>
@@ -87,7 +66,7 @@
     <!-- Property Details Grid -->
     <div class="details-grid">
       <div class="detail-item">
-        <ion-icon name="home-outline" class="detail-icon"></ion-icon>
+        <ion-icon name="home" class="detail-icon"></ion-icon>
         <div class="detail-content">
           <span class="detail-label">Property Type</span>
           <span class="detail-value">{{ property.propertyType }}</span>
@@ -95,7 +74,7 @@
       </div>
 
       <div class="detail-item">
-        <ion-icon name="bed-outline" class="detail-icon"></ion-icon>
+        <ion-icon name="bed" class="detail-icon"></ion-icon>
         <div class="detail-content">
           <span class="detail-label">BHK Type</span>
           <span class="detail-value">{{ property.bhkType }}</span>
@@ -103,7 +82,7 @@
       </div>
 
       <div class="detail-item">
-        <ion-icon name="construct-outline" class="detail-icon"></ion-icon>
+        <ion-icon name="construct" class="detail-icon"></ion-icon>
         <div class="detail-content">
           <span class="detail-label">Furnishing</span>
           <span class="detail-value">{{ property.furnishing }}</span>
@@ -111,7 +90,7 @@
       </div>
 
       <div class="detail-item">
-        <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+        <ion-icon name="calendar" class="detail-icon"></ion-icon>
         <div class="detail-content">
           <span class="detail-label">Available From</span>
           <span class="detail-value">{{ getFormattedDate(property.availableFrom) }}</span>
@@ -136,7 +115,7 @@
           {{ property.address.landmark }}
         </div>
       </div>
-      
+
       <!-- Map placeholder -->
       <div class="map-container">
         <div class="map-placeholder">
@@ -154,22 +133,8 @@
       </h3>
       <div class="amenities-grid">
         <div class="amenity-item" *ngFor="let amenity of property.amenities">
-          <ion-icon name="checkmark-circle" color="success"></ion-icon>
+          <ion-icon name="checkmark-circle" color="dark"></ion-icon>
           <span>{{ amenity }}</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Contact Section -->
-    <div class="contact-section">
-      <h3>
-        <ion-icon name="person-outline"></ion-icon>
-        Contact Owner
-      </h3>
-      <div class="contact-info">
-        <div class="contact-preference">
-          <ion-icon name="call-outline"></ion-icon>
-          <span>Preferred contact: {{ property.contactPreference }}</span>
         </div>
       </div>
     </div>
@@ -180,98 +145,57 @@
 
   <!-- Fixed Bottom Actions -->
   <div class="bottom-actions">
-    <ion-button 
-      expand="block" 
-      fill="solid" 
-      class="contact-btn"
-      (click)="contactOwner()">
+    <ion-button expand="block" fill="solid" class="contact-btn" (click)="contactOwner()">
       <ion-icon name="call-outline" slot="start"></ion-icon>
       Contact Owner
     </ion-button>
   </div>
 
-   <ion-modal 
-    [isOpen]="isContactModalOpen" 
-    (didDismiss)="closeContactModal()"
-    class="contact-modal">
+  <ion-modal [isOpen]="isContactModalOpen" (didDismiss)="closeContactModal()" class="contact-modal">
     <ng-template>
       <ion-header>
         <ion-toolbar>
-          <ion-title>Contact Owner</ion-title>
-          <ion-button 
-            slot="end" 
-            fill="clear" 
-            (click)="closeContactModal()">
-            <ion-icon name="close-outline"></ion-icon>
+          <ion-button (click)="closeContactModal()" slot="start" fill="clear" shape="round" style="padding-left: 5px;" color="dark">
+            <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
           </ion-button>
+          <ion-title>Contact</ion-title>
         </ion-toolbar>
       </ion-header>
 
       <ion-content class="modal-content">
         <div class="contact-form-container">
-          <div class="modal-header">
-            <h2>Get in Touch</h2>
-            <p>Send a message about "{{ property.title }}"</p>
-          </div>
 
           <form [formGroup]="contactForm" (ngSubmit)="onContactSubmit()">
             <!-- Phone Number Field -->
             <div class="input-group">
-              <div class="input-label">
-                <ion-icon name="call-outline"></ion-icon>
-                <span>Phone Number</span>
-              </div>
-              <ion-input 
-                type="tel"
-                formControlName="phoneNumber"
-                placeholder="Enter your phone number"
-                fill="outline"
+              <ion-input type="tel" formControlName="phoneNumber" placeholder="Enter your phone number" fill="outline"
                 [class.error-input]="isFieldInvalid('phoneNumber')">
               </ion-input>
-              <div 
-                *ngIf="isFieldInvalid('phoneNumber')" 
-                class="error-message">
+              <div *ngIf="isFieldInvalid('phoneNumber')" class="error-message">
                 {{ getErrorMessage('phoneNumber') }}
               </div>
             </div>
 
             <!-- Message Field -->
             <div class="input-group">
-              <div class="input-label">
-                <ion-icon name="chatbubble-outline"></ion-icon>
-                <span>Message</span>
-              </div>
-              <ion-textarea 
-                formControlName="message"
-                placeholder="Write your message here..."
-                fill="outline"
-                rows="4"
+              <ion-textarea formControlName="message" placeholder="Write your message here..." fill="outline" rows="4"
                 [class.error-input]="isFieldInvalid('message')">
               </ion-textarea>
               <div class="character-count">
                 {{ getCharacterCount() }}/500
               </div>
-              <div 
-                *ngIf="isFieldInvalid('message')" 
-                class="error-message">
+              <div *ngIf="isFieldInvalid('message')" class="error-message">
                 {{ getErrorMessage('message') }}
               </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="button-group">
-              <ion-button 
-                fill="clear" 
-                color="medium"
-                (click)="closeContactModal()"
-                class="cancel-button">
+              <ion-button fill="clear" color="medium" (click)="closeContactModal()" class="cancel-button">
                 Cancel
               </ion-button>
-              
-              <ion-button 
-                type="submit"
-                [disabled]="contactForm.invalid"
-                class="send-button">
+
+              <ion-button type="submit" [disabled]="contactForm.invalid" class="send-button">
                 <ion-icon name="send-outline" slot="start"></ion-icon>
                 Send Message
               </ion-button>

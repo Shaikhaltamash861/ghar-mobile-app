@@ -295,7 +295,7 @@ export class InboxPage implements OnInit {
   }
 
   onRequestClick(conversation: ContactRequest) {
-    const user = conversation.participants.find((id) => id !== this.userId);
+    const user = conversation.participants.find(user => user._id !== this.userId);
     this.chatService.setRecevier(user._id)
     this.router.navigate(['/chat', conversation?.['_id']]);
   }

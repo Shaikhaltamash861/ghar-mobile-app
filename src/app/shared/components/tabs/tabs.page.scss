@@ -2,6 +2,7 @@
 //     height: 78px;
 // }
 
-// ion-tab-button {
-//     padding-bottom: 20px;
-// }
+ion-tab-button {
+    --color-focused: #000 !important;
+    --color: #666666 !important;
+}

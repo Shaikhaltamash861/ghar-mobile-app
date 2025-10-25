@@ -5,12 +5,8 @@
 
 // Header customization
 ion-toolbar {
-  --background: #075e54;
+  --background: linear-gradient(33deg, #2d4a37 0%, #1a2f20 50%, #0f1a13 100%);
   --color: white;
-  
-  &[color="primary"] {
-    --background: #128c7e;
-  }
 }
 
 // Search container

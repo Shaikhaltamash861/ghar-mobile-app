@@ -15,14 +15,13 @@
         <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
     </style>
 
-    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:background">@null</item>
-        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
-        <item name="android:statusBarColor">@color/statusBarColor</item>
-        <item name="android:navigationBarColor">@color/statusBarColor</item>
-    </style>
+   <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="android:statusBarColor">#075e54</item>
+    <item name="android:navigationBarColor">#000000</item>
+    <item name="android:windowLightStatusBar">false</item>
+    <item name="android:windowLightNavigationBar">false</item>
+</style>
+    
 
 
      <!-- Launch Screen Theme -->

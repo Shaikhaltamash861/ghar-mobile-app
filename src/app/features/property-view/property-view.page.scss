@@ -1,6 +1,5 @@
 .property-details-content {
   --background: #f8f9fa;
-  --padding-top: 38px;
 }
 
 .property-header {
@@ -78,7 +77,6 @@
 .header-actions {
   position: absolute;
   top: 0;
-  left: 0;
   right: 0;
   padding: 16px;
   display: flex;
@@ -131,14 +129,12 @@
 
   .price-details {
     display: flex;
-    align-items: center;
     gap: 16px;
     flex-wrap: wrap;
 
     .rent-amount {
       font-size: 20px;
       font-weight: 700;
-      color: #27ae60;
 
       small {
         font-size: 14px;
@@ -203,7 +199,7 @@
 
     .detail-icon {
       font-size: 20px;
-      color: #015304;
+      color: black;
       margin-top: 2px;
     }
 
@@ -390,7 +386,7 @@
   }
 
   .contact-btn {
-    --background: #27ae60;
+    --background: black;
   }
 }
 
@@ -482,24 +478,10 @@ Contact Modal Styles
   margin-bottom: 24px;
 }
 
-.input-label {
-  display: flex;
-  align-items: center;
-  margin-bottom: 8px;
-  color: #333;
-  font-weight: 500;
-  
-  ion-icon {
-    font-size: 18px;
-    margin-right: 8px;
-    color: #007bff;
-  }
-}
-
 ion-input, ion-textarea {
-  --border-radius: 12px;
+  --border-radius: 10px;
   --border-color: #e0e0e0;
-  --border-width: 2px;
+  --border-width: 1px;
   --background: #ffffff;
   --color: #333333;
   --placeholder-color: #999999;
@@ -559,7 +541,7 @@ ion-textarea {
 }
 
 .send-button {
-  --background: #007bff;
+  --background: black;
   --background-activated: #0056b3;
   --background-hover: #0069d9;
   --border-radius: 12px;

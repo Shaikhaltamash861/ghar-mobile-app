@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, AlertController, LoadingController, ToastController, NavController } from '@ionic/angular';
-import { IonInput, IonButton, IonIcon, IonSpinner, IonContent } from '@ionic/angular/standalone';
+import { IonInput, IonButton, IonIcon, IonSpinner, IonContent,IonInputPasswordToggle } from '@ionic/angular/standalone';
 import { AuthService, LoginRequest } from 'src/app/core/services/auth/auth';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Preferences } from '@capacitor/preferences';

@@ -9,14 +9,14 @@ const config: CapacitorConfig = {
     SafeArea: {
       enabled: true,
       customColorsForSystemBars: true,
-      statusBarColor: '#000000',
+      statusBarColor: '#075e54',
       statusBarContent: 'light',
-      navigationBarColor: '#000000',
+      navigationBarColor: '#075e54',
       navigationBarContent: 'light',
       offset: 0,
     },
     StatusBar: {
-      backgroundColor: "#FFFFFF",
+      backgroundColor: "#075e54",
       style: "LIGHT"
     },
     SplashScreen: {

@@ -4,7 +4,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NavController, ActionSheetController, AlertController,IonicModule } from '@ionic/angular';
 import { IonInput, IonButton, IonIcon, IonSpinner, IonContent, IonChip, IonLabel,
-   IonTextarea, IonModal, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+   IonTextarea, IonModal, IonHeader, IonTitle, IonToolbar, IonBackButton, IonButtons } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {chevronBack,
   chevronForward,
@@ -25,12 +25,17 @@ import {chevronBack,
   chatbubbleOutline,
   sendOutline,
   heart,
-  heartOutline} from 'ionicons/icons';
+  heartOutline,
+  home,
+  bed,
+  construct,
+  calendar,
+  logoWhatsapp,
+  copyOutline,
+  close} from 'ionicons/icons';
 import { PropertyView } from './property-view';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from 'src/app/app.constant';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { FileTransfer } from '@capacitor/file-transfer';
 import { CacheService } from 'ionic-cache';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 interface Address {
@@ -68,7 +73,8 @@ interface Property {
   styleUrls: ['./property-view.page.scss'],
   standalone: true,
   imports: [IonButton, IonIcon, IonContent, IonChip, IonLabel, CommonModule, IonInput, IonTextarea,
-     IonModal, IonHeader, IonTitle, IonSpinner, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule],
+     IonModal, IonHeader, IonTitle, IonSpinner, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule,
+     IonBackButton, IonButtons],
   providers: [HttpClient]
 })
 export class PropertyViewPage implements OnInit {
@@ -105,6 +111,7 @@ export class PropertyViewPage implements OnInit {
   isContactModalOpen = false;
   contactForm: FormGroup;
   isSubmitted = false;
+  backUrl = '';
   private viewPropertyService = inject(PropertyView);
   private http = inject(HttpClient);
     private cache = inject(CacheService);
@@ -121,10 +128,10 @@ export class PropertyViewPage implements OnInit {
       chevronForward,
       arrowBack,
       shareOutline,
-      homeOutline,
-      bedOutline,
-      constructOutline,
-      calendarOutline,
+      home,
+      bed,
+      construct,
+      calendar,
       locationOutline,
       navigateOutline,
       mapOutline,
@@ -136,7 +143,10 @@ export class PropertyViewPage implements OnInit {
       chatbubbleOutline,
       sendOutline,
       heart,
-      heartOutline
+      heartOutline,
+      logoWhatsapp,
+      copyOutline,
+      close
     });
       this.contactForm = this.formBuilder.group({
       phoneNumber: ['', [Validators.required, Validators.pattern('^[+]?[0-9]{10,15}$')]],
@@ -147,6 +157,7 @@ export class PropertyViewPage implements OnInit {
   ngOnInit() {
     // In real app, fetch property data based on route params
     const propertyId = this.route.snapshot.paramMap.get('id');
+    this.backUrl = '/property-view/' + propertyId;
      this.route.paramMap.subscribe(params => {
       this.propertyId = params.get('id') as string;
       console.log('Property ID:', this.propertyId);
@@ -204,6 +215,9 @@ export class PropertyViewPage implements OnInit {
     this.currentImageIndex = this.currentImageIndex === 0 
       ? this.property.images.length - 1 
       : this.currentImageIndex - 1;
+  }
+  onBack() {
+    this.navCtrl.back();
   }
 
   toggleFavorite() {

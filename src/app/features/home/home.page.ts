@@ -26,7 +26,10 @@ import {
 import { addIcons } from 'ionicons';
 import {
   optionsOutline,
-  add
+  add,
+  bedOutline,
+  homeOutline,
+  keyOutline
 } from 'ionicons/icons';
 import { FilterPropertyPage } from 'src/app/shared/components/filter-property/filter-property.page';
 import { Router } from '@angular/router';
@@ -35,6 +38,7 @@ import { API_BASE_URL } from 'src/app/app.constant';
 import { PropertyFilterService } from 'src/app/shared/services/property-filter/property-filter';
 import { CacheService } from "ionic-cache";
 import { User } from 'src/app/core/services/user/user';
+import { key } from 'localforage-cordovasqlitedriver';
 
 @Component({
   selector: 'app-home',
@@ -76,12 +80,12 @@ export class HomePage {
   totalPages = 0;
   loading = false;
   categories = [
-    { name: 'Flat', active: false },
-    { name: 'Room', active: false },
-    { name: 'PG', active: false },
-    { name: 'House', active: false },
-    { name: 'Hostel', active: false },
-    { name: 'Other', active: false }
+    { name: 'Flat', active: false, icon: 'home-outline' },
+    { name: 'Room', active: false, icon: 'person-outline'   },
+    { name: 'PG', active: false, icon: 'bed-outline'   },
+    { name: 'House', active: false, icon: 'key-outline'   },
+    { name: 'Hostel', active: false, icon: 'school-outline'     },
+    { name: 'Other', active: false, icon: 'ellipsis-horizontal-outline'     },  
   ];
 
 
@@ -95,7 +99,7 @@ export class HomePage {
   ];
 
   constructor(private modalController: ModalController,public userService: User) {
-    addIcons({ add, optionsOutline });
+    addIcons({ add, optionsOutline, bedOutline, homeOutline, keyOutline,  });
     this.loadProperties();
   }
 
@@ -106,13 +110,15 @@ export class HomePage {
   }
 
   onIonInfinite(event: InfiniteScrollCustomEvent) {
-    if (this.properties.length < this.totalPages && !this.loading) {
+    if (this.page < this.totalPages && !this.loading) {
       this.page++;
       this.loadProperties(() => {
         (event.target as HTMLIonInfiniteScrollElement).complete();
       });
 
-    }
+    }else {
+      (event.target as HTMLIonInfiniteScrollElement).complete();
+    } 
 
 
   }
@@ -126,7 +132,7 @@ export class HomePage {
       this.http.get(API_BASE_URL + '/properties' + this.filter + 'page=' + this.page + '&limit=5').subscribe((data: any) => {
         if (data && data.properties) {
           this.properties = data.properties;
-          this.totalPages = data.total;
+          this.totalPages = data.pages;
           this.loading = false;
         }
       });
@@ -143,7 +149,7 @@ export class HomePage {
           } else {
             this.properties = [...this.properties, ...response.properties];
           }
-          this.totalPages = response.total;
+          this.totalPages = response.pages;
           this.loading = false;
           if (callback) { callback();}
         }
@@ -192,7 +198,9 @@ export class HomePage {
     modal.onDidDismiss().then((data) => {
       if (data && data.data) {
         this.appliedFilters = data.data;
-        this.filter = '?';
+        this.filter = '';
+        this.filter = this.appliedFilters + '&';
+        this.loadProperties();
       }
     })
   }

@@ -3,18 +3,6 @@
   <div class="hero-section">
     <div class="background-overlay"></div>
 
-    <!-- Header with Back Button -->
-    <!-- <div class="header">
-      <ion-button fill="clear" color="light" class="back-btn" (click)="goBack()">
-        <ion-icon name="arrow-back" slot="icon-only"></ion-icon>
-      </ion-button>
-      <div class="app-title">
-        <ion-icon name="home-outline" class="app-icon"></ion-icon>
-        <span>MyHome</span>
-      </div>
-      <div class="spacer"></div>
-    </div> -->
-
     <!-- Main Heading -->
     <div class="hero-content">
       <h1 class="main-heading">
@@ -34,8 +22,7 @@
         <div class="input-group">
           <div class="input-wrapper">
             <ion-input formControlName="email" label="Email" label-placement="floating" fill="outline" type="email"
-              placeholder="Enter your email" formControlName="email" class="custom-input"
-              [class.error]="email?.invalid && email?.touched"></ion-input>
+              placeholder="Email" [class.error]="email?.invalid && email?.touched"></ion-input>
           </div>
           <div class="error-message" *ngIf="email?.invalid && email?.touched">
             <span *ngIf="email?.errors?.['required']">Email is required</span>
@@ -45,16 +32,14 @@
 
         <!-- Password Input -->
         <div class="input-group">
-          <div class="input-wrapper">
-            <ion-input formControlName="email" label="Password" label-placement="floating" fill="outline"
-              [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter your password"
-              formControlName="password" class="custom-input" [class.error]="password?.invalid && password?.touched">
-              <ion-button fill="clear" slot="end" (click)="togglePasswordVisibility()" class="password-toggle">
-                <ion-icon [name]="isPasswordVisible ? 'eye-off-outline' : 'eye-outline'">
-                </ion-icon>
-              </ion-button>
-            </ion-input>
-          </div>
+          <ion-input formControlName="password" label="Password" labelPlacement="floating" fill="outline"
+            [type]="isPasswordVisible ? 'text' : 'password'" placeholder="Enter your password"
+            [class.error]="password?.invalid && password?.touched">
+            <ion-button fill="clear" slot="end" (click)="togglePasswordVisibility()" class="password-toggle">
+              <ion-icon [name]="isPasswordVisible ? 'eye-off-outline' : 'eye-outline'">
+              </ion-icon>
+            </ion-button>
+          </ion-input>
           <div class="error-message" *ngIf="password?.invalid && password?.touched">
             <span *ngIf="password?.errors?.['required']">Password is required</span>
             <span *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters</span>

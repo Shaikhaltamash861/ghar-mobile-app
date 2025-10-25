@@ -351,6 +351,7 @@ export class FilterPropertyPage implements OnInit {
   }
 
   async applyFilters() {
+    let url = '';
     const filters: AppliedFilters = {
       propertyTypes: this.propertyTypes.filter(p => p.selected),
       bhkTypes: this.bhkTypes.filter(b => b.selected),
@@ -365,12 +366,43 @@ export class FilterPropertyPage implements OnInit {
     this.lastAppliedFilters = { ...filters };
     this.totalFiltersApplied = this.getActiveFiltersCount();
 
-    console.log('Applied filters:', filters);
-    console.log('Total active filters:', this.totalFiltersApplied);
     
     // Close bottom sheet modal and pass filters back
-    await this.modalController.dismiss(filters);
+    await this.modalController.dismiss(this.buildFilterQuery(filters));
   }
+
+  buildFilterQuery(filters: any): string {
+    console.log('Building filter query with filters:', filters);
+  const params = new URLSearchParams();
+
+  const propertyTypes = filters.propertyTypes
+    .filter((p: any) => p.selected)
+    .map((p: any) => p.id)
+    .join(',');
+  if (propertyTypes) params.append('propertyTypes', propertyTypes);
+
+  const bhkTypes = filters.bhkTypes
+    .filter((b: any) => b.selected)
+    .map((b: any) => b.id)
+    .join(',');
+  if (bhkTypes) params.append('bhkTypes', bhkTypes);
+
+  const furnishing = filters.furnishing
+    .filter((f: any) => f.selected)
+    .map((f: any) => f.id)
+    .join(',');
+  if (furnishing) params.append('furnishing', furnishing);
+
+  const amenities = filters.amenities.map((a: any) => a.id).join(',');
+  params.append('amenities', amenities || '');
+
+  params.append('priceMin', filters.priceRange.min || '');
+  params.append('priceMax', filters.priceRange.max || '');
+  params.append('location', filters.location || '');
+  params.append('sortBy', filters.sortBy || '');
+
+  return '?' + params.toString();
+}
 
   async closeModal() {
     await this.modalController.dismiss();

@@ -50,6 +50,7 @@ import {
   cardOutline, shareOutline } from 'ionicons/icons';
 import { Router } from '@angular/router';
 import { Preferences } from '@capacitor/preferences';
+import { User } from 'src/app/core/services/user/user';
 
 interface UserProfile {
   name: string;
@@ -173,26 +174,10 @@ export class ProfilePage implements OnInit {
       handler: () => this.confirmLogout()
     }
   ];
+  private userService = inject(User);
 
   constructor() {
-    addIcons({
-      personOutline,
-      settingsOutline,
-      notificationsOutline,
-      lockClosedOutline,
-      helpCircleOutline,
-      logOutOutline,
-      cameraOutline,
-      pencilOutline,
-      callOutline,
-      mailOutline,
-      locationOutline,
-      calendarOutline,
-      shieldCheckmarkOutline,
-      moonOutline,
-      languageOutline,
-      cardOutline
-    });
+    addIcons({pencilOutline,shieldCheckmarkOutline,cameraOutline,callOutline,mailOutline,locationOutline,calendarOutline,shareOutline,moonOutline,notificationsOutline,lockClosedOutline,cardOutline,languageOutline,helpCircleOutline,logOutOutline,personOutline,settingsOutline});
   }
 
   ngOnInit() {
@@ -202,7 +187,16 @@ export class ProfilePage implements OnInit {
 
   loadUserProfile() {
     // Load user profile from service/API
-    console.log('Loading user profile...');
+    this.userService.getUser().then(user => {
+      if (user) {
+        this.userProfile.name = user.name || this.userProfile.name;
+        this.userProfile.email = user.email || this.userProfile.email;
+        this.userProfile.phone = user.phone || this.userProfile.phone;
+        this.userProfile.location = user.location || this.userProfile.location;
+        this.userProfile.avatar = user.avatar || this.userProfile.avatar;
+        this.userProfile.bio = user.bio || this.userProfile.bio;
+      }
+    });
   }
 
   loadSettings() {

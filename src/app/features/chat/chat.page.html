@@ -23,14 +23,14 @@
       <ion-button>
         <ion-icon name="call" color="light"></ion-icon>
       </ion-button>
-      <ion-button>
+      <ion-button shape="round">
         <ion-icon name="ellipsis-vertical" color="light"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content #content class="ion-padding">
   <div class="messages-container" #messagesContainer>
     <div *ngFor="let message of messages" class="message-wrapper"
     [ngClass]="{'sent': message.senderId._id === userId, 'received': message.senderId._id !== userId}">
@@ -66,7 +66,7 @@
       </ion-button> -->
 
       <div class="input-wrapper">
-        <ion-textarea [(ngModel)]="newMessage" placeholder="Type a message..." rows="1" autoGrow="true"
+        <ion-textarea #messageInput [(ngModel)]="newMessage" placeholder="Type a message..." rows="1" autoGrow="true"
           class="message-input" (keydown.enter)="sendMessage();$event.preventDefault()">
         </ion-textarea>
 
@@ -75,9 +75,9 @@
         </ion-button> -->
       </div>
 
-      <ion-button (click)="sendMessage()" fill="solid" shape="round" size="small" class="send-btn"
+      <ion-button (click)="sendMessage()" shape="round" color="dark"
         [disabled]="!newMessage.trim()">
-        <ion-icon name="send" class="send" color="white"></ion-icon>
+        <ion-icon name="send" slot="icon-only" class="send" color="light"></ion-icon>
       </ion-button>
     </div>
   </ion-toolbar>

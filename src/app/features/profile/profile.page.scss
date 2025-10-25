@@ -1,5 +1,10 @@
+
+ion-header ion-toolbar {
+  --background: linear-gradient(33deg, #2d4a37 0%, #1a2f20 50%, #0f1a13 100%);
+  --color: white;
+}
 .profile-header {
-      background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-secondary));
+      background: linear-gradient(135deg, #2d4a37 0%, #1a2f20 50%, #0f1a13 100%);
       color: white;
       padding: 2rem 1rem;
       text-align: center;
@@ -70,6 +75,7 @@
     }
 
     .profile-segment {
+      max-width: fit-content;
       margin: 1rem;
       --background: var(--ion-color-light);
       border-radius: 12px;
@@ -81,7 +87,7 @@
 
     .section-title {
       margin: 0 0 1rem 0;
-      color: var(--ion-color-primary);
+      color: black;
       font-weight: 600;
     }
 

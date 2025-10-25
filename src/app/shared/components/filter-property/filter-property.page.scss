@@ -2,7 +2,14 @@
 
 // Header Styles
 ion-header {
+  padding-top: var(--ion-safe-area-top, 0);
+}
+ion-footer {
+  padding-bottom: var(--ion-safe-area-bottom, 0);
+}
+ion-header {
     margin-top: 0 !important;
+    box-shadow: none;
   ion-toolbar {
     --background: #ffffff;
     --border-color: #f0f0f0;
@@ -31,7 +38,7 @@ ion-content {
   margin-bottom: 32px;
   
   &:last-child {
-    margin-bottom: 16px;
+    margin-bottom: 90px;
   }
 }
 
@@ -54,7 +61,7 @@ ion-content {
 .custom-chip {
   --background: #ffffff;
   --color: #666666;
-  border: 2px solid #e0e0e0;
+  border: 1px solid #e0e0e0;
   border-radius: 20px;
   height: 36px;
   transition: all 0.3s ease;
@@ -93,7 +100,7 @@ ion-content {
   flex: 1;
   --background: transparent;
   --border-color: #e0e0e0;
-  --border-width: 2px;
+  --border-width: 1px;
   --border-radius: 8px;
   --padding-start: 12px;
   --padding-end: 12px;
@@ -117,7 +124,7 @@ ion-content {
 .location-item {
   --background: transparent;
   --border-color: #e0e0e0;
-  --border-width: 2px;
+  --border-width: 1px;
   --border-radius: 8px;
   --padding-start: 12px;
   --padding-end: 12px;
@@ -132,7 +139,7 @@ ion-content {
 .sort-item {
   --background: transparent;
   --border-color: #e0e0e0;
-  --border-width: 2px;
+  --border-width: 1px;
   --border-radius: 8px;
   --padding-start: 12px;
   --padding-end: 12px;
@@ -150,7 +157,6 @@ ion-content {
   left: 0;
   right: 0;
   background: #ffffff;
-  margin-bottom: 7px;
   border-top: 1px solid #f0f0f0;
   padding: 16px 20px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));

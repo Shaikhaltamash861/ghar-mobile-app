@@ -1,15 +1,15 @@
 <!-- property-filter.component.html -->
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Filters</ion-title>
     <ion-note slot="end" color="medium">({{ getActiveFiltersCount() }} active)</ion-note>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
   <!-- Property Type Section -->
-  <div class="filter-section">
+  <div class="filter-section" sticky>
     <h3 class="section-title">Property Type</h3>
     <div class="chips-container">
       <ion-chip *ngFor="let type of propertyTypes" [class.selected]="type.selected" (click)="toggleChip(type)"
@@ -79,7 +79,7 @@
   </div>
 
   <!-- Sort By Section -->
-  <div class="filter-section">
+  <div class="filter-section sortby">
     <h3 class="section-title">Sort By</h3>
     <ion-item lines="none" class="sort-item">
       <ion-select [(ngModel)]="selectedSort" interface="popover" placeholder="Select sorting option">

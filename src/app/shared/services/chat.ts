@@ -6,9 +6,14 @@ import { io, Socket } from 'socket.io-client';
 })
 export class Chat {
   private socket: Socket;
-  receiver =''
+  receiver = ''
 
   constructor() {
+    // this.socket = io('https://socketapi-2ffd.onrender.com');
+
+  }
+
+  init() {
     this.socket = io('https://socketapi-2ffd.onrender.com');
   }
 
@@ -28,7 +33,7 @@ export class Chat {
     this.socket.emit('joinConversation', conversationId);
   }
 
-  sendMessage(data: {senderId: string; receiverId: string; text: string }) {
+  sendMessage(data: { senderId: string; receiverId: string; text: string }) {
     this.socket.emit('sendMessage', data);
   }
 
@@ -43,5 +48,5 @@ export class Chat {
   disconnect() {
     this.socket.disconnect();
   }
-  
+
 }

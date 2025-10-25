@@ -4,15 +4,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
-import { send } from 'ionicons/icons';
+import { send, ellipsisVertical } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { HttpClient } from '@angular/common/http';
 import { API_BASE_URL } from 'src/app/app.constant';
 import { User } from 'src/app/core/services/user/user';
 import { Chat } from 'src/app/shared/services/chat';
+import { IonInput } from '@ionic/angular/standalone';
+import { IonContent } from '@ionic/angular/standalone';
+import { CacheService } from 'ionic-cache';
 
 addIcons({
-  'send': send
+  'send': send,
+  'ellipsis-vertical': ellipsisVertical
 });
 export interface IUser {
   _id: string;
@@ -52,7 +56,7 @@ interface Contact {
   templateUrl: './chat.page.html',
   styleUrls: ['./chat.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule],
+  imports: [IonicModule, CommonModule, FormsModule, IonInput],
   providers: [HttpClient]
 })
 export class ChatPage implements OnInit, AfterViewChecked {
@@ -74,15 +78,18 @@ export class ChatPage implements OnInit, AfterViewChecked {
   private userService = inject(User);
   private chat = inject(Chat);
   userId = '';
-  recevierId= '';
+  recevierId = '';
 
+  private cache = inject(CacheService);
+
+  @ViewChild('messageInput', { static: false }) messageInput!: IonInput;
+  @ViewChild('content', { static: false }) content!: IonContent;
   constructor(private router: Router, private route: ActivatedRoute) {
     this.conversationId = this.route.snapshot.paramMap.get('id');
 
   }
 
   onMessage(event) {
-    console.log(event)
     const message = {
       _id: '87t87g8xwv8',
       conversationId: this.conversationId,
@@ -91,11 +98,9 @@ export class ChatPage implements OnInit, AfterViewChecked {
       },
       text: event.text,
       read: false,
-      createdAt: this.formatTime(Date.now().toString()),
-      updatedAt: Date.now().toString()
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     }
-    console.log(typeof this.messages)
-    console.log(this.messages)
     this.messages.push(message)
   }
 
@@ -118,12 +123,15 @@ export class ChatPage implements OnInit, AfterViewChecked {
 
   loadMessages() {
     // Load messages from API or service based on conversationId
+    const url = API_BASE_URL + '/message/' + this.conversationId;
+    const cacheKey = url;
+    const request = this.http.get(url);
 
-    this.http.get(API_BASE_URL + '/message/' + this.conversationId).subscribe((data: any) => {
+    this.cache.loadFromDelayedObservable(cacheKey, request, 'message', 30).subscribe((data: any) => {
       if (data) {
         this.messages = data
         this.scrollToBottom();
-      } 
+      }
     });
   }
 
@@ -134,15 +142,15 @@ export class ChatPage implements OnInit, AfterViewChecked {
   sendMessage() {
     if (this.newMessage.trim()) {
       const message = {
-      _id: '676',
-      conversationId: this.conversationId,
-      senderId: {
-        _id: this.userId
-      },
-      text: this.newMessage,
-      read: false,
-      createdAt: Date.now().toString(),
-      updatedAt: Date.now().toString()
+        _id: '676',
+        conversationId: this.conversationId,
+        senderId: {
+          _id: this.userId
+        },
+        text: this.newMessage,
+        read: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
       }
 
       // this.messages.push(message);
@@ -160,32 +168,16 @@ export class ChatPage implements OnInit, AfterViewChecked {
       this.chat.sendMessage(socketPayload);
       this.addMeessage(message)
       this.http.post(API_BASE_URL + '/message', messagePayload).subscribe((response) => {
-        console.log('Message sent successfully', response);
-        this.newMessage = '';
+        setTimeout(() => {
+          this.newMessage = '';
+          this.messageInput.setFocus();
+          this.scrollToBottom();
+        }, 0);
       }, (error) => {
         console.error('Error sending message', error);
         // Optionally, update message status to 'failed' or similar
       });
-
-      this.scrollToBottom();
-
-
-      setTimeout(() => {
-        this.isTyping = false;
-        this.receiveMessage("That's awesome! Keep up the great work! 👍");
-      }, 5000);
     }
-  }
-
-  receiveMessage(text: string) {
-    const message: Message = {
-      id: this.messages.length + 1,
-      text: text,
-      timestamp: new Date(),
-      isSent: false,
-      status: 'read'
-    };
-    // this.messages.push(message);
   }
 
   formatTime(timestamp: string): string {
@@ -225,11 +217,6 @@ export class ChatPage implements OnInit, AfterViewChecked {
   }
 
   private scrollToBottom() {
-    if (this.messagesContainer) {
-      setTimeout(() => {
-        this.messagesContainer.nativeElement.scrollTop =
-          this.messagesContainer.nativeElement.scrollHeight;
-      }, 100);
-    }
+    this.content.scrollToBottom(300);
   }
 }

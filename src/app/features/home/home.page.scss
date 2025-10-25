@@ -345,7 +345,7 @@ ion-fab-button {
     margin: 0;
     white-space: nowrap;
     font-weight: 500;
-    min-width: max-content;
+    // min-width: max-content;
 
 
   }
@@ -369,13 +369,12 @@ ion-fab-button {
 
   .property-card {
     margin: 0 0 16px 0;
-    border-radius: 16px;
+    border-radius: 7px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
 
     .property-image {
       height: 200px;
       overflow: hidden;
-      border-radius: 16px 16px 0 0;
 
       img {
         width: 100%;
@@ -395,10 +394,9 @@ ion-fab-button {
       }
 
       .property-address {
-        font-size: 14px;
-        color: #666;
-        margin: 0;
-        line-height: 1.4;
+        font-size: 16px;
+        color: #2d3748;
+        font-weight: 500;
       }
     }
   }
